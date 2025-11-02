@@ -9,6 +9,11 @@ import { HttpExceptionFilter } from './shared/filters/http-exception.filter';
 import { JwtAuthGuard } from './shared/guards/jwt-auth.guard';
 import { RolesGuard } from './shared/guards/roles.guard';
 import { AuthModule } from './modules/auth/auth.module';
+import { FileModule } from './modules/file/file.module';
+import { CategoryModule } from './modules/category/category.module';
+import { BookModule } from './modules/book/book.module';
+import { ReaderModule } from './modules/reader/reader.module';
+import { BorrowModule } from './modules/borrow/borrow.module';
 
 @Module({
   imports: [
@@ -21,6 +26,16 @@ import { AuthModule } from './modules/auth/auth.module';
     PrismaModule,
     // 认证模块
     AuthModule,
+    // 文件管理模块
+    FileModule,
+    // 分类管理模块
+    CategoryModule,
+    // 图书管理模块
+    BookModule,
+    // 读者管理模块
+    ReaderModule,
+    // 借阅管理模块
+    BorrowModule,
   ],
   controllers: [AppController],
   providers: [
