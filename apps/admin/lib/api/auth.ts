@@ -37,16 +37,17 @@ export const authApi = {
    * 用户登录
    */
   login: async (data: LoginDto): Promise<LoginResponseDto> => {
-    const response = await apiClient.post<LoginResponseDto>('/auth/login', data);
-    return response.data;
+    const response = await apiClient.post('/auth/login', data);
+    // 后端返回: { success: true, data: { accessToken, user } }
+    return response.data.data || response.data;
   },
 
   /**
    * 获取当前用户信息
    */
   getCurrentUser: async (): Promise<UserDto> => {
-    const response = await apiClient.get<UserDto>('/auth/me');
-    return response.data;
+    const response = await apiClient.get('/auth/me');
+    return response.data.data || response.data;
   },
 
   /**

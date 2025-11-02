@@ -28,9 +28,15 @@ import { GetFileMetadataUseCase } from '../../application/use-cases/get-file-met
 import { DeleteFileUseCase } from '../../application/use-cases/delete-file.use-case';
 import { FileStorageService } from '../../infrastructure/services/file-storage.service';
 import { Public } from '../../../../shared/decorators/public.decorator';
+import { Roles } from '../../../../shared/decorators/roles.decorator';
+import { UserRole } from '../../../auth/domain/entities/user.entity';
 
+/**
+ * 权限说明:
+ * - 上传、删除: 仅管理员
+ * - 访问、下载: 公开（读者端需要预览文件）
+ */
 @Controller('files')
-@Public() // 临时设置为公开访问,后续添加权限控制
 export class FileController {
   constructor(
     private readonly uploadFileUseCase: UploadFileUseCase,
@@ -42,10 +48,12 @@ export class FileController {
   /**
    * 文件上传接口
    * POST /api/v1/files/upload
+   * 权限: 仅管理员
    *
    * @param file - 上传的文件 (from multipart/form-data)
    * @param uploadedBy - 上传者用户 ID (临时从 query 获取，后续从 JWT 获取)
    */
+  @Roles(UserRole.ADMIN)
   @Post('upload')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -81,7 +89,9 @@ export class FileController {
   /**
    * 删除文件 (必须放在 GET :id 之前,避免路由冲突)
    * DELETE /api/v1/files/:id
+   * 权限: 仅管理员
    */
+  @Roles(UserRole.ADMIN)
   @Delete(':id')
   async deleteFile(@Param('id') id: string) {
     await this.deleteFileUseCase.execute(id);
@@ -95,7 +105,9 @@ export class FileController {
   /**
    * 获取文件元数据
    * GET /api/v1/files/:id
+   * 权限: 公开访问
    */
+  @Public()
   @Get(':id')
   async getFileMetadata(@Param('id') id: string) {
     const metadata = await this.getFileMetadataUseCase.execute(id);
@@ -109,9 +121,11 @@ export class FileController {
   /**
    * 文件下载/访问接口
    * GET /api/v1/files/:id/download
+   * 权限: 公开访问（读者端需要预览文件）
    *
    * 返回文件流供浏览器下载或预览
    */
+  @Public()
   @Get(':id/download')
   async downloadFile(@Param('id') id: string, @Res() res: Response) {
     // 1. 获取文件元数据
@@ -145,7 +159,9 @@ export class FileController {
   /**
    * 获取文件访问 URL
    * GET /api/v1/files/:id/url
+   * 权限: 公开访问
    */
+  @Public()
   @Get(':id/url')
   async getFileUrl(@Param('id') id: string) {
     const metadata = await this.getFileMetadataUseCase.execute(id);

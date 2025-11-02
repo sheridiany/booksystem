@@ -13,7 +13,7 @@ import {
 import { JwtAuthGuard } from '@/shared/guards/jwt-auth.guard';
 import { RolesGuard } from '@/shared/guards/roles.guard';
 import { Roles } from '@/shared/decorators/roles.decorator';
-import { UserRole } from '@repo/types';
+import { UserRole } from '@/modules/auth/domain/entities/user.entity';
 import { BorrowBookUseCase } from '../../application/use-cases/borrow-book.use-case';
 import { ReturnBookUseCase } from '../../application/use-cases/return-book.use-case';
 import { RenewBorrowUseCase } from '../../application/use-cases/renew-borrow.use-case';
@@ -207,14 +207,14 @@ export class BorrowController {
   }
 
   /**
-   * 获取图书的借阅记录
-   * GET /api/v1/borrows/book/:bookId
+   * 获取图书载体的借阅记录
+   * GET /api/v1/borrows/book-copy/:bookCopyId
    * 权限: 仅管理员
    */
-  @Get('book/:bookId')
+  @Get('book-copy/:bookCopyId')
   @Roles(UserRole.ADMIN)
-  async getByBook(@Param('bookId') bookId: string): Promise<BorrowDto[]> {
-    const records = await this.getBorrowsUseCase.getByBook(bookId);
+  async getByBookCopy(@Param('bookCopyId') bookCopyId: string): Promise<BorrowDto[]> {
+    const records = await this.getBorrowsUseCase.getByBookCopy(bookCopyId);
     return records.map((record) => BorrowDto.fromEntity(record, true));
   }
 }

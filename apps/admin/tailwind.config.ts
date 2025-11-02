@@ -10,6 +10,14 @@ const config: Config = {
     '../../packages/ui/**/*.{ts,tsx}',
   ],
   theme: {
+    screens: {
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      laptop: '1366px',
+      xl: '1440px',
+      '2xl': '1920px',
+    },
     extend: {
       colors: {
         border: 'hsl(var(--border))',

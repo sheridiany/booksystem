@@ -10,11 +10,14 @@ import { BorrowRecord, BorrowStatus } from '../../domain/entities/borrow-record.
 
 /**
  * 借书 DTO
+ *
+ * 变更说明：bookId → bookCopyId
+ * 现在借阅的是具体的载体（纸质书或电子书），而不是图书元信息
  */
 export class BorrowBookDto {
   @IsString()
-  @IsNotEmpty({ message: '图书 ID 不能为空' })
-  bookId: string;
+  @IsNotEmpty({ message: '图书载体 ID 不能为空' })
+  bookCopyId: string; // 改为载体ID
 
   @IsString()
   @IsNotEmpty({ message: '读者 ID 不能为空' })
@@ -23,7 +26,7 @@ export class BorrowBookDto {
   @IsOptional()
   @IsNumber()
   @Min(1, { message: '借阅天数至少为 1 天' })
-  borrowDays?: number; // 默认 30 天
+  borrowDays?: number; // 默认 30 天（纸质书），电子书可能无需归还
 }
 
 /**
@@ -63,7 +66,7 @@ export class QueryBorrowsDto {
 
   @IsOptional()
   @IsString()
-  bookId?: string;
+  bookCopyId?: string; // 图书载体ID
 
   @IsOptional()
   @IsIn(['BORROWED', 'RETURNED', 'OVERDUE'])
@@ -75,10 +78,10 @@ export class QueryBorrowsDto {
  */
 export class BorrowDto {
   id!: string;
-  bookId!: string;
+  bookCopyId!: string; // 改为载体ID
   readerId!: string;
   borrowDate!: string;
-  dueDate!: string;
+  dueDate!: string | null; // 改为可选：电子书可能无归还日期
   returnDate!: string | null;
   renewCount!: number;
   status!: BorrowStatus;
@@ -93,6 +96,7 @@ export class BorrowDto {
 
   // 关联信息（可选，由调用方填充）
   bookTitle?: string;
+  bookCopyType?: string; // PHYSICAL | EBOOK
   readerName?: string;
 
   /**
@@ -101,10 +105,10 @@ export class BorrowDto {
   static fromEntity(borrowRecord: BorrowRecord, includeStats = false): BorrowDto {
     const dto = new BorrowDto();
     dto.id = borrowRecord.id;
-    dto.bookId = borrowRecord.bookId;
+    dto.bookCopyId = borrowRecord.bookCopyId;
     dto.readerId = borrowRecord.readerId;
     dto.borrowDate = borrowRecord.borrowDate.toISOString();
-    dto.dueDate = borrowRecord.dueDate.toISOString();
+    dto.dueDate = borrowRecord.dueDate?.toISOString() || null;
     dto.returnDate = borrowRecord.returnDate?.toISOString() || null;
     dto.renewCount = borrowRecord.renewCount;
     dto.status = borrowRecord.status;

@@ -13,17 +13,18 @@ export interface BookQueryParams {
 }
 
 /**
- * 创建图书 DTO
+ * 创建图书 DTO (仅元信息)
  */
 export interface CreateBookDto {
-  isbn: string;
   title: string;
   author: string;
   publisher: string;
   categoryId: string;
-  totalCopies: number;
+  isbn?: string;  // 改为可选 - 电子资源可能无 ISBN
   description?: string;
   publishDate?: string;
+  coverFileId?: string;  // 封面文件 ID
+  // ❌ 已移除: totalCopies - 已移至 BookCopy
 }
 
 /**
@@ -41,9 +42,16 @@ export const booksApi = {
    * 获取图书列表 (分页)
    */
   async getBooks(params?: BookQueryParams): Promise<PaginatedResponse<Book>> {
+    // 过滤掉空值参数
+    const filteredParams = params
+      ? Object.fromEntries(
+          Object.entries(params).filter(([_, value]) => value !== '' && value !== null && value !== undefined)
+        )
+      : {};
+
     const response = await apiClient.get<ApiResponse<PaginatedResponse<Book>>>(
       '/books',
-      { params }
+      { params: filteredParams }
     );
     return response.data.data!;
   },

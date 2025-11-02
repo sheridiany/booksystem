@@ -7,10 +7,12 @@ import { UpdateBookDto } from '../dto/book.dto';
 /**
  * 更新图书用例
  *
+ * 职责变更：仅更新图书元信息
+ * 库存管理已移至 BookCopy 模块
+ *
  * 业务规则：
  * 1. 图书必须存在
  * 2. 更新分类时，分类必须存在
- * 3. 更新总库存时，不能少于已借出数量
  */
 @Injectable()
 export class UpdateBookUseCase {
@@ -42,6 +44,7 @@ export class UpdateBookUseCase {
       dto.title !== undefined ||
       dto.author !== undefined ||
       dto.publisher !== undefined ||
+      dto.isbn !== undefined ||
       dto.description !== undefined ||
       dto.publishDate !== undefined
     ) {
@@ -49,27 +52,18 @@ export class UpdateBookUseCase {
         title: dto.title,
         author: dto.author,
         publisher: dto.publisher,
+        isbn: dto.isbn,
         description: dto.description,
         publishDate: dto.publishDate ? new Date(dto.publishDate) : null,
       });
     }
 
-    // 4. 更新总库存
-    if (dto.totalCopies !== undefined) {
-      book.updateTotalCopies(dto.totalCopies);
-    }
-
-    // 5. 更新封面文件
+    // 4. 更新封面文件
     if (dto.coverFileId !== undefined) {
       book.updateCoverFile(dto.coverFileId);
     }
 
-    // 6. 更新内容文件
-    if (dto.contentFileId !== undefined) {
-      book.updateContentFile(dto.contentFileId);
-    }
-
-    // 7. 保存更新
+    // 5. 保存更新
     return await this.bookRepository.save(book);
   }
 }

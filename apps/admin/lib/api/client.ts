@@ -46,6 +46,21 @@ apiClient.interceptors.response.use(
         window.location.href = '/login';
       }
     }
+
+    // 提取后端错误消息 (NestJS 默认格式)
+    // NestJS 异常格式: { message: string | string[], error: string, statusCode: number }
+    const backendMessage =
+      error.response?.data?.message ||
+      error.response?.data?.error?.message ||
+      error.message;
+
+    // 如果 message 是数组,取第一个
+    if (Array.isArray(backendMessage)) {
+      error.message = backendMessage[0];
+    } else if (typeof backendMessage === 'string') {
+      error.message = backendMessage;
+    }
+
     return Promise.reject(error);
   }
 );

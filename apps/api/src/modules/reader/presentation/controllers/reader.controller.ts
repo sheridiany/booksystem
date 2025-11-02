@@ -11,13 +11,11 @@ import {
   UseGuards,
   Request,
   ForbiddenException,
-  Patch,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '@/shared/guards/jwt-auth.guard';
 import { RolesGuard } from '@/shared/guards/roles.guard';
 import { Roles } from '@/shared/decorators/roles.decorator';
-import { Public } from '@/shared/decorators/public.decorator';
-import { UserRole } from '@repo/types';
+import { UserRole } from '@/modules/auth/domain/entities/user.entity';
 import { CreateReaderUseCase } from '../../application/use-cases/create-reader.use-case';
 import { UpdateReaderUseCase } from '../../application/use-cases/update-reader.use-case';
 import { DeleteReaderUseCase } from '../../application/use-cases/delete-reader.use-case';

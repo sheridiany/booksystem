@@ -23,7 +23,7 @@ export class GetBorrowsUseCase {
       page: query.page || 1,
       pageSize: query.pageSize || 20,
       readerId: query.readerId,
-      bookId: query.bookId,
+      bookCopyId: query.bookCopyId,
       status: query.status,
     });
   }
@@ -50,9 +50,9 @@ export class GetBorrowsUseCase {
   }
 
   /**
-   * 获取图书的借阅记录
+   * 获取图书载体的借阅记录
    */
-  async getByBook(bookId: string): Promise<BorrowRecord[]> {
-    return await this.borrowRepository.findByBookId(bookId);
+  async getByBookCopy(bookCopyId: string): Promise<BorrowRecord[]> {
+    return await this.borrowRepository.findByBookCopyId(bookCopyId);
   }
 }

@@ -18,10 +18,7 @@ export class BookRepository implements IBookRepository {
       author: book.author,
       publisher: book.publisher,
       categoryId: book.categoryId,
-      totalCopies: book.totalCopies,
-      availableCopies: book.availableCopies,
       coverFileId: book.coverFileId,
-      contentFileId: book.contentFileId,
       description: book.description,
       publishDate: book.publishDate,
       createdAt: book.createdAt,
@@ -131,9 +128,12 @@ export class BookRepository implements IBookRepository {
   }
 
   async hasActiveBorrows(id: string): Promise<boolean> {
+    // 检查该图书的所有载体是否有活跃借阅记录
     const count = await this.prisma.borrowRecord.count({
       where: {
-        bookId: id,
+        bookCopy: {
+          bookId: id,
+        },
         status: { in: ['BORROWED', 'OVERDUE'] },
       },
     });
@@ -142,30 +142,41 @@ export class BookRepository implements IBookRepository {
   }
 
   async findPopular(limit = 10): Promise<Book[]> {
-    // 查询借阅次数最多的图书
-    const popularBooks = await this.prisma.borrowRecord.groupBy({
-      by: ['bookId'],
-      _count: {
-        bookId: true,
-      },
-      orderBy: {
-        _count: {
-          bookId: 'desc',
+    // 通过 BookCopy 关联查询借阅次数最多的图书
+    const borrowRecords = await this.prisma.borrowRecord.findMany({
+      include: {
+        bookCopy: {
+          select: {
+            bookId: true,
+          },
         },
       },
-      take: limit,
     });
 
+    // 按 bookId 分组统计借阅次数
+    const borrowCountMap = new Map<string, number>();
+    borrowRecords.forEach((record) => {
+      const bookId = record.bookCopy.bookId;
+      borrowCountMap.set(bookId, (borrowCountMap.get(bookId) || 0) + 1);
+    });
+
+    // 排序并取前 N 个
+    const sortedBookIds = Array.from(borrowCountMap.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, limit)
+      .map(([bookId]) => bookId);
+
     // 获取图书详情
-    const bookIds = popularBooks.map((item) => item.bookId);
     const books = await this.prisma.book.findMany({
       where: {
-        id: { in: bookIds },
+        id: { in: sortedBookIds },
       },
     });
 
-    // 按借阅次数排序
-    const sortedBooks = bookIds.map((id) => books.find((b) => b.id === id)).filter((b) => b !== undefined);
+    // 按借阅次数排序返回
+    const sortedBooks = sortedBookIds
+      .map((id) => books.find((b) => b.id === id))
+      .filter((b) => b !== undefined);
 
     return sortedBooks.map((b) => this.toDomain(b!));
   }
@@ -181,10 +192,7 @@ export class BookRepository implements IBookRepository {
       author: prismaBook.author,
       publisher: prismaBook.publisher,
       categoryId: prismaBook.categoryId,
-      totalCopies: prismaBook.totalCopies,
-      availableCopies: prismaBook.availableCopies,
       coverFileId: prismaBook.coverFileId,
-      contentFileId: prismaBook.contentFileId,
       description: prismaBook.description,
       publishDate: prismaBook.publishDate,
       createdAt: prismaBook.createdAt,

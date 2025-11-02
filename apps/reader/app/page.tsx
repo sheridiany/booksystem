@@ -2,7 +2,7 @@ import { ThemeToggle } from '@/components/theme/theme-toggle';
 
 export default function Home() {
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center p-24">
+    <main className="relative flex min-h-screen flex-col items-center justify-center p-6 lg:p-12 xl:p-24">
       {/* 主题切换按钮 - 固定在右上角 */}
       <div className="fixed right-6 top-6 z-50">
         <ThemeToggle />

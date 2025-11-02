@@ -13,7 +13,7 @@ export class BorrowRepository implements IBorrowRepository {
   async save(borrowRecord: BorrowRecord): Promise<BorrowRecord> {
     const data = {
       id: borrowRecord.id,
-      bookId: borrowRecord.bookId,
+      bookCopyId: borrowRecord.bookCopyId,
       readerId: borrowRecord.readerId,
       borrowDate: borrowRecord.borrowDate,
       dueDate: borrowRecord.dueDate,
@@ -51,7 +51,7 @@ export class BorrowRepository implements IBorrowRepository {
     page?: number;
     pageSize?: number;
     readerId?: string;
-    bookId?: string;
+    bookCopyId?: string;
     status?: BorrowStatus;
   }): Promise<{
     items: BorrowRecord[];
@@ -70,8 +70,8 @@ export class BorrowRepository implements IBorrowRepository {
       where.readerId = params.readerId;
     }
 
-    if (params.bookId) {
-      where.bookId = params.bookId;
+    if (params.bookCopyId) {
+      where.bookCopyId = params.bookCopyId;
     }
 
     if (params.status) {
@@ -112,8 +112,8 @@ export class BorrowRepository implements IBorrowRepository {
     return records.map((r) => this.toDomain(r));
   }
 
-  async findByBookId(bookId: string, status?: BorrowStatus): Promise<BorrowRecord[]> {
-    const where: any = { bookId };
+  async findByBookCopyId(bookCopyId: string, status?: BorrowStatus): Promise<BorrowRecord[]> {
+    const where: any = { bookCopyId };
 
     if (status) {
       where.status = status;
@@ -161,10 +161,10 @@ export class BorrowRepository implements IBorrowRepository {
     return count > 0;
   }
 
-  async hasActiveByBook(bookId: string): Promise<boolean> {
+  async hasActiveByBookCopy(bookCopyId: string): Promise<boolean> {
     const count = await this.prisma.borrowRecord.count({
       where: {
-        bookId,
+        bookCopyId,
         status: { in: ['BORROWED', 'OVERDUE'] },
       },
     });
@@ -174,7 +174,7 @@ export class BorrowRepository implements IBorrowRepository {
 
   async count(params?: {
     readerId?: string;
-    bookId?: string;
+    bookCopyId?: string;
     status?: BorrowStatus;
   }): Promise<number> {
     const where: any = {};
@@ -183,8 +183,8 @@ export class BorrowRepository implements IBorrowRepository {
       where.readerId = params.readerId;
     }
 
-    if (params?.bookId) {
-      where.bookId = params.bookId;
+    if (params?.bookCopyId) {
+      where.bookCopyId = params.bookCopyId;
     }
 
     if (params?.status) {
@@ -226,7 +226,7 @@ export class BorrowRepository implements IBorrowRepository {
   private toDomain(prismaRecord: any): BorrowRecord {
     return new BorrowRecord({
       id: prismaRecord.id,
-      bookId: prismaRecord.bookId,
+      bookCopyId: prismaRecord.bookCopyId,
       readerId: prismaRecord.readerId,
       borrowDate: prismaRecord.borrowDate,
       dueDate: prismaRecord.dueDate,

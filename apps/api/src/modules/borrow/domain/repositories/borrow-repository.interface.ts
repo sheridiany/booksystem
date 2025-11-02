@@ -27,7 +27,7 @@ export interface IBorrowRepository {
     page?: number;
     pageSize?: number;
     readerId?: string;
-    bookId?: string;
+    bookCopyId?: string;
     status?: BorrowStatus;
   }): Promise<{
     items: BorrowRecord[];
@@ -42,9 +42,9 @@ export interface IBorrowRepository {
   findByReaderId(readerId: string, status?: BorrowStatus): Promise<BorrowRecord[]>;
 
   /**
-   * 根据图书ID查找借阅记录
+   * 根据图书载体ID查找借阅记录
    */
-  findByBookId(bookId: string, status?: BorrowStatus): Promise<BorrowRecord[]>;
+  findByBookCopyId(bookCopyId: string, status?: BorrowStatus): Promise<BorrowRecord[]>;
 
   /**
    * 查找逾期记录
@@ -62,16 +62,16 @@ export interface IBorrowRepository {
   hasOverdueByReader(readerId: string): Promise<boolean>;
 
   /**
-   * 检查图书是否有未归还的借阅记录
+   * 检查图书载体是否有未归还的借阅记录
    */
-  hasActiveByBook(bookId: string): Promise<boolean>;
+  hasActiveByBookCopy(bookCopyId: string): Promise<boolean>;
 
   /**
    * 统计借阅数量
    */
   count(params?: {
     readerId?: string;
-    bookId?: string;
+    bookCopyId?: string;
     status?: BorrowStatus;
   }): Promise<number>;
 

@@ -68,7 +68,7 @@ export function DataTable<T extends Record<string, any>>({
             <tr className="border-b bg-muted/50">
               {/* 批量选择列 */}
               {rowSelection && (
-                <th className="px-6 py-3 text-left w-12">
+                <th className="px-4 py-3 text-left w-12">
                   <input
                     type="checkbox"
                     checked={isAllSelected}
@@ -86,7 +86,7 @@ export function DataTable<T extends Record<string, any>>({
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className={`px-6 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wider ${
+                  className={`px-4 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wider ${
                     column.align === 'center'
                       ? 'text-center'
                       : column.align === 'right'
@@ -116,7 +116,7 @@ export function DataTable<T extends Record<string, any>>({
                 >
                   {/* 批量选择列 */}
                   {rowSelection && (
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-4 py-4 whitespace-nowrap">
                       <input
                         type="checkbox"
                         checked={isSelected}
@@ -136,7 +136,7 @@ export function DataTable<T extends Record<string, any>>({
                     return (
                       <td
                         key={column.key}
-                        className={`px-6 py-4 whitespace-nowrap ${
+                        className={`px-4 py-4 whitespace-nowrap ${
                           column.align === 'center'
                             ? 'text-center'
                             : column.align === 'right'

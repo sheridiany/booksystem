@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Book } from '@/modules/book/domain/entities/book.entity';
+import { BookCopy } from '@/modules/book/domain/entities/book-copy.entity';
 import { Reader } from '@/modules/reader/domain/entities/reader.entity';
 
 /**
@@ -12,22 +12,22 @@ import { Reader } from '@/modules/reader/domain/entities/reader.entity';
 @Injectable()
 export class BorrowDomainService {
   /**
-   * 检查读者是否可以借阅指定图书
+   * 检查读者是否可以借阅指定图书载体
    *
    * 业务规则：
-   * 1. 图书库存是否充足
+   * 1. 图书载体是否可借阅
    * 2. 读者状态是否激活
    * 3. 读者是否达到借阅上限
    * 4. 读者是否有逾期未还图书
    *
-   * @param book 图书实体
+   * @param bookCopy 图书载体实体
    * @param reader 读者实体
    * @param currentBorrowCount 读者当前借阅数量（需要从仓储查询）
    * @param hasOverdueBorrows 读者是否有逾期未还图书（需要从仓储查询）
    * @returns 校验结果
    */
   canBorrow(
-    book: Book,
+    bookCopy: BookCopy,
     reader: Reader,
     currentBorrowCount: number,
     hasOverdueBorrows: boolean,
@@ -35,11 +35,11 @@ export class BorrowDomainService {
     can: boolean;
     reason?: string;
   } {
-    // 1. 检查图书库存
-    if (!book.hasAvailableCopies()) {
+    // 1. 检查图书载体是否可借阅
+    if (!bookCopy.isAvailable()) {
       return {
         can: false,
-        reason: '图书库存不足，暂时无法借阅',
+        reason: '图书载体暂时无法借阅',
       };
     }
 

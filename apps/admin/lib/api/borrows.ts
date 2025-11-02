@@ -14,16 +14,14 @@ export interface BorrowQueryParams {
   pageSize?: number;
   status?: BorrowStatus;
   readerId?: string;
-  bookId?: string;
-  startDate?: string;
-  endDate?: string;
+  bookCopyId?: string; // 改为载体ID
 }
 
 /**
  * 办理借阅 DTO
  */
 export interface BorrowBookDto {
-  bookId: string;
+  bookCopyId: string; // 改为载体ID
   readerId: string;
   borrowDays?: number; // 借阅天数,默认30天
 }
@@ -146,5 +144,26 @@ export const borrowsApi = {
     params?: Omit<BorrowQueryParams, 'status'>
   ): Promise<PaginatedResponse<BorrowRecordWithDetails>> {
     return this.getBorrows({ ...params, status: 'OVERDUE' as BorrowStatus });
+  },
+
+  /**
+   * 获取逾期列表（专用接口）
+   */
+  async getOverdueList(limit?: number): Promise<BorrowRecordWithDetails[]> {
+    const response = await apiClient.get<ApiResponse<BorrowRecordWithDetails[]>>(
+      '/borrows/overdue/list',
+      { params: { limit } }
+    );
+    return response.data.data!;
+  },
+
+  /**
+   * 检查并更新逾期状态
+   */
+  async checkOverdue(): Promise<{ updatedCount: number }> {
+    const response = await apiClient.post<ApiResponse<{ updatedCount: number }>>(
+      '/borrows/check-overdue'
+    );
+    return response.data.data!;
   },
 };

@@ -6,16 +6,19 @@
  * - 逾期检测
  * - 续借管理
  * - 状态机转换
+ *
+ * 变更说明：bookId → bookCopyId
+ * 现在借阅记录关联到具体的图书载体，而不是图书元信息
  */
 
 export type BorrowStatus = 'BORROWED' | 'RETURNED' | 'OVERDUE';
 
 export class BorrowRecord {
   id: string;
-  bookId: string;
+  bookCopyId: string; // 改为载体ID
   readerId: string;
   borrowDate: Date;
-  dueDate: Date;
+  dueDate: Date | null; // 改为可选：电子书可能无归还日期
   returnDate: Date | null;
   renewCount: number;
   status: BorrowStatus;
@@ -24,10 +27,10 @@ export class BorrowRecord {
 
   constructor(props: {
     id: string;
-    bookId: string;
+    bookCopyId: string; // 改为载体ID
     readerId: string;
     borrowDate?: Date;
-    dueDate?: Date;
+    dueDate?: Date | null;
     returnDate?: Date | null;
     renewCount?: number;
     status?: BorrowStatus;
@@ -35,10 +38,10 @@ export class BorrowRecord {
     updatedAt?: Date;
   }) {
     this.id = props.id;
-    this.bookId = props.bookId;
+    this.bookCopyId = props.bookCopyId;
     this.readerId = props.readerId;
     this.borrowDate = props.borrowDate ?? new Date();
-    this.dueDate = props.dueDate ?? this.calculateDueDate(30); // 默认30天
+    this.dueDate = props.dueDate ?? this.calculateDueDate(30); // 默认30天（纸质书），电子书可能为null
     this.returnDate = props.returnDate ?? null;
     this.renewCount = props.renewCount ?? 0;
     this.status = props.status ?? 'BORROWED';
@@ -52,15 +55,16 @@ export class BorrowRecord {
    * 验证借阅记录
    */
   private validate(): void {
-    if (!this.bookId) {
-      throw new Error('图书 ID 不能为空');
+    if (!this.bookCopyId) {
+      throw new Error('图书载体 ID 不能为空');
     }
 
     if (!this.readerId) {
       throw new Error('读者 ID 不能为空');
     }
 
-    if (this.dueDate < this.borrowDate) {
+    // 电子书可能没有归还日期
+    if (this.dueDate && this.dueDate < this.borrowDate) {
       throw new Error('应还日期不能早于借阅日期');
     }
 
@@ -76,10 +80,10 @@ export class BorrowRecord {
   /**
    * 办理借阅（创建时调用）
    */
-  static borrow(bookId: string, readerId: string, borrowDays = 30): BorrowRecord {
+  static borrow(bookCopyId: string, readerId: string, borrowDays = 30): BorrowRecord {
     const record = new BorrowRecord({
       id: '', // 将由用例层生成 UUID
-      bookId,
+      bookCopyId,
       readerId,
       borrowDate: new Date(),
       dueDate: new Date(Date.now() + borrowDays * 24 * 60 * 60 * 1000),

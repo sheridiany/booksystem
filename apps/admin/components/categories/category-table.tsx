@@ -65,7 +65,7 @@ export function CategoryTable({
           <thead>
             <tr className="border-b bg-muted/50">
               {/* 批量选择列 */}
-              <th className="px-6 py-3 text-left w-12">
+              <th className="px-4 py-3 text-left w-12">
                 <input
                   type="checkbox"
                   checked={isAllSelected}
@@ -78,19 +78,19 @@ export function CategoryTable({
                   className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
                 />
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 分类名称
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 父分类
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 图书数量
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 排序
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 操作
               </th>
             </tr>
@@ -113,7 +113,7 @@ export function CategoryTable({
                   }`}
                 >
                   {/* 批量选择列 */}
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-4 py-4 whitespace-nowrap">
                     <input
                       type="checkbox"
                       checked={isSelected}
@@ -124,7 +124,7 @@ export function CategoryTable({
                   </td>
 
                   {/* 分类名称 */}
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-4 py-4 whitespace-nowrap">
                     <div
                       className="flex items-center gap-2"
                       style={{ paddingLeft: `${level * 1.5}rem` }}
@@ -168,26 +168,26 @@ export function CategoryTable({
                   </td>
 
                   {/* 父分类 */}
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-4 py-4 whitespace-nowrap">
                     <span className="text-sm text-muted-foreground">
                       {parent ? parent.name : '-'}
                     </span>
                   </td>
 
                   {/* 图书数量 */}
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-4 py-4 whitespace-nowrap">
                     <span className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900/30 px-2.5 py-0.5 text-xs font-medium text-blue-700 dark:text-blue-300">
                       {category.bookCount || 0} 本
                     </span>
                   </td>
 
                   {/* 排序 */}
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-4 py-4 whitespace-nowrap">
                     <span className="text-sm text-muted-foreground">{category.sort}</span>
                   </td>
 
                   {/* 操作 */}
-                  <td className="px-6 py-4 whitespace-nowrap text-right">
+                  <td className="px-4 py-4 whitespace-nowrap text-right">
                     {isDeleting ? (
                       <div className="inline-flex items-center gap-2">
                         <span className="text-xs text-muted-foreground">确定删除？</span>

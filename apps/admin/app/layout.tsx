@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { QueryProvider } from '@/lib/providers/query-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
   title: '高斯图书管理系统',
@@ -23,6 +24,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <QueryProvider>{children}</QueryProvider>
+          <Toaster richColors position="top-center" expand={false} />
         </ThemeProvider>
       </body>
     </html>

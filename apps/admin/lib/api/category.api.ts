@@ -1,7 +1,4 @@
-import axios from 'axios';
-
-// API 基础 URL
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api/v1';
+import { apiClient } from './client';
 
 // 分类类型定义
 export interface Category {
@@ -34,51 +31,55 @@ export const categoryApi = {
    * 获取所有分类
    */
   async getAll(): Promise<Category[]> {
-    const response = await axios.get(`${API_BASE_URL}/categories`);
-    return response.data;
+    const response = await apiClient.get('/categories');
+    // 后端返回格式: { success: true, data: [...] }
+    const data = response.data.data || response.data;
+    return Array.isArray(data) ? data : [];
   },
 
   /**
    * 获取根分类
    */
   async getRootCategories(): Promise<Category[]> {
-    const response = await axios.get(`${API_BASE_URL}/categories`, {
+    const response = await apiClient.get('/categories', {
       params: { parentId: 'root' },
     });
-    return response.data;
+    const data = response.data.data || response.data;
+    return Array.isArray(data) ? data : [];
   },
 
   /**
    * 获取子分类
    */
   async getChildCategories(parentId: string): Promise<Category[]> {
-    const response = await axios.get(`${API_BASE_URL}/categories`, {
+    const response = await apiClient.get('/categories', {
       params: { parentId },
     });
-    return response.data;
+    const data = response.data.data || response.data;
+    return Array.isArray(data) ? data : [];
   },
 
   /**
    * 创建分类
    */
   async create(data: CreateCategoryDto): Promise<Category> {
-    const response = await axios.post(`${API_BASE_URL}/categories`, data);
-    return response.data;
+    const response = await apiClient.post('/categories', data);
+    return response.data.data || response.data;
   },
 
   /**
    * 更新分类
    */
   async update(id: string, data: UpdateCategoryDto): Promise<Category> {
-    const response = await axios.put(`${API_BASE_URL}/categories/${id}`, data);
-    return response.data;
+    const response = await apiClient.put(`/categories/${id}`, data);
+    return response.data.data || response.data;
   },
 
   /**
    * 删除分类
    */
   async delete(id: string): Promise<{ message: string }> {
-    const response = await axios.delete(`${API_BASE_URL}/categories/${id}`);
-    return response.data;
+    const response = await apiClient.delete(`/categories/${id}`);
+    return response.data.data || response.data;
   },
 };

@@ -48,6 +48,7 @@ import { IFileMetadataRepository } from './domain/repositories/file-metadata.rep
     // 导出供其他模块使用
     IFileMetadataRepository,
     FileStorageService,
+    UploadFileUseCase,      // 导出用于图书封面上传
     GetFileMetadataUseCase,
   ],
 })
