@@ -59,3 +59,5 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+apps/admin/middleware.ts.bak
+apps/api/uploads/
