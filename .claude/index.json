@@ -1,0 +1,330 @@
+{
+  "generatedAt": "2025-11-02T12:30:16+08:00",
+  "version": "1.0.0",
+  "project": {
+    "name": "gz-books",
+    "description": "高斯图书借阅系统 - Monorepo",
+    "architecture": "DDD + pnpm Workspace",
+    "rootPath": "/Users/xuean/Repos/gz-books"
+  },
+  "modules": [
+    {
+      "name": "api",
+      "path": "apps/api",
+      "type": "backend",
+      "framework": "NestJS 10.4.15",
+      "language": "TypeScript",
+      "entryFile": "src/main.ts",
+      "port": 3000,
+      "description": "后端 API 服务，DDD 架构，提供 RESTful 接口",
+      "keyFiles": [
+        "src/main.ts",
+        "src/app.module.ts",
+        "src/app.controller.ts",
+        "src/app.service.ts",
+        "prisma/schema.prisma"
+      ],
+      "interfaces": [
+        "GET /api/v1/health - 健康检查"
+      ],
+      "dependencies": {
+        "@nestjs/common": "^10.4.15",
+        "@nestjs/core": "^10.4.15",
+        "@prisma/client": "^6.2.1",
+        "@nestjs/jwt": "^10.2.0",
+        "@nestjs/passport": "^10.0.3"
+      },
+      "coverage": {
+        "scannedFiles": 4,
+        "totalFiles": 4,
+        "percentage": 100,
+        "missingFeatures": [
+          "领域模块 (Book, Borrow, Reader, Auth, File) - 待开发",
+          "仓储实现 - 待开发",
+          "业务用例 - 待开发",
+          "控制器 - 待开发",
+          "单元测试 - 待编写",
+          "E2E 测试 - 待编写"
+        ]
+      }
+    },
+    {
+      "name": "admin",
+      "path": "apps/admin",
+      "type": "frontend",
+      "framework": "Next.js 15.1.6",
+      "language": "TypeScript + React 19",
+      "entryFile": "app/page.tsx",
+      "port": 3001,
+      "description": "管理端应用，图书/借阅/读者全流程管理",
+      "keyFiles": [
+        "app/layout.tsx",
+        "app/page.tsx",
+        "app/globals.css",
+        "next.config.ts",
+        "tailwind.config.ts"
+      ],
+      "interfaces": [
+        "/ - 首页 (仪表盘，计划中)",
+        "/login - 登录页 (计划中)",
+        "/books - 图书管理 (计划中)",
+        "/borrows - 借阅管理 (计划中)",
+        "/readers - 读者管理 (计划中)",
+        "/stats - 统计报表 (计划中)"
+      ],
+      "dependencies": {
+        "next": "^15.1.6",
+        "react": "^19.0.0",
+        "@tanstack/react-query": "^5.62.12",
+        "react-hook-form": "^7.54.2",
+        "zod": "^3.24.1",
+        "zustand": "^5.0.3",
+        "@repo/ui": "workspace:*",
+        "@repo/types": "workspace:*",
+        "@repo/utils": "workspace:*"
+      },
+      "coverage": {
+        "scannedFiles": 2,
+        "totalFiles": 2,
+        "percentage": 100,
+        "missingFeatures": [
+          "登录页面 - 待开发",
+          "仪表盘页面 - 待开发",
+          "图书管理页面 - 待开发",
+          "借阅管理页面 - 待开发",
+          "读者管理页面 - 待开发",
+          "统计报表页面 - 待开发",
+          "组件库 - 待开发",
+          "测试框架 - 待配置"
+        ]
+      }
+    },
+    {
+      "name": "reader",
+      "path": "apps/reader",
+      "type": "frontend",
+      "framework": "Next.js 15.1.6",
+      "language": "TypeScript + React 19",
+      "entryFile": "app/page.tsx",
+      "port": 3002,
+      "description": "用户端应用，图书检索与在线预览",
+      "keyFiles": [
+        "app/layout.tsx",
+        "app/page.tsx",
+        "app/globals.css",
+        "next.config.ts",
+        "tailwind.config.ts"
+      ],
+      "interfaces": [
+        "/ - 首页 (图书推荐，计划中)",
+        "/login - 登录页 (计划中)",
+        "/books - 图书列表 (计划中)",
+        "/books/:id - 图书详情 (计划中)",
+        "/preview/pdf/:id - PDF 预览 (计划中)",
+        "/preview/epub/:id - EPUB 预览 (计划中)",
+        "/my-borrows - 我的借阅 (计划中)"
+      ],
+      "dependencies": {
+        "next": "^15.1.6",
+        "react": "^19.0.0",
+        "@tanstack/react-query": "^5.62.12",
+        "react-pdf": "^9.2.1",
+        "epubjs": "^0.3.93",
+        "react-reader": "^2.0.9",
+        "@repo/ui": "workspace:*",
+        "@repo/types": "workspace:*",
+        "@repo/utils": "workspace:*"
+      },
+      "coverage": {
+        "scannedFiles": 2,
+        "totalFiles": 2,
+        "percentage": 100,
+        "missingFeatures": [
+          "登录页面 - 待开发",
+          "首页 (推荐图书) - 待开发",
+          "图书列表与详情 - 待开发",
+          "PDF 阅读器 - 待开发",
+          "EPUB 阅读器 - 待开发",
+          "我的借阅页面 - 待开发",
+          "个人中心 - 待开发",
+          "测试框架 - 待配置"
+        ]
+      }
+    },
+    {
+      "name": "ui",
+      "path": "packages/ui",
+      "type": "package",
+      "framework": "React 19 + Tailwind CSS",
+      "language": "TypeScript",
+      "entryFile": "index.tsx",
+      "description": "共享 UI 组件库，基于 shadcn/ui",
+      "keyFiles": [
+        "index.tsx",
+        "components/button.tsx"
+      ],
+      "exports": [
+        "Button - 按钮组件"
+      ],
+      "dependencies": {
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "tailwind-merge": "^2.6.0",
+        "@repo/utils": "workspace:*"
+      },
+      "coverage": {
+        "scannedFiles": 2,
+        "totalFiles": 2,
+        "percentage": 100,
+        "missingFeatures": [
+          "Input 组件 - 待开发",
+          "Select 组件 - 待开发",
+          "Table 组件 - 待开发",
+          "Modal 组件 - 待开发",
+          "Form 组件 - 待开发",
+          "其他基础组件 - 待开发"
+        ]
+      }
+    },
+    {
+      "name": "types",
+      "path": "packages/types",
+      "type": "package",
+      "framework": "TypeScript",
+      "language": "TypeScript",
+      "entryFile": "index.ts",
+      "description": "共享 TypeScript 类型定义",
+      "keyFiles": [
+        "index.ts"
+      ],
+      "exports": [
+        "User, UserRole - 用户类型",
+        "Reader, ReaderStatus - 读者类型",
+        "Book, Category, FileType - 图书类型",
+        "BorrowRecord, BorrowStatus - 借阅类型",
+        "FileMetadata - 文件类型",
+        "ApiResponse, PaginatedResponse - API 响应类型"
+      ],
+      "dependencies": {},
+      "coverage": {
+        "scannedFiles": 1,
+        "totalFiles": 1,
+        "percentage": 100,
+        "missingFeatures": [
+          "DTO 类型 - 可选扩展",
+          "统计类型 - 可选扩展",
+          "查询参数类型 - 可选扩展"
+        ]
+      }
+    },
+    {
+      "name": "utils",
+      "path": "packages/utils",
+      "type": "package",
+      "framework": "TypeScript",
+      "language": "TypeScript",
+      "entryFile": "index.ts",
+      "description": "共享工具函数 (日期、格式化、校验等)",
+      "keyFiles": [
+        "index.ts",
+        "cn.ts"
+      ],
+      "exports": [
+        "formatDate - 日期格式化",
+        "getDaysDiff - 日期差计算",
+        "formatFileSize - 文件大小格式化",
+        "validateISBN - ISBN 校验",
+        "cn - Tailwind 类名合并"
+      ],
+      "dependencies": {
+        "clsx": "^2.1.1",
+        "tailwind-merge": "^2.6.0"
+      },
+      "coverage": {
+        "scannedFiles": 2,
+        "totalFiles": 2,
+        "percentage": 100,
+        "missingFeatures": [
+          "防抖/节流函数 - 待开发",
+          "更多校验函数 - 待开发",
+          "字符串工具 - 待开发",
+          "数组工具 - 待开发",
+          "单元测试 - 待编写"
+        ]
+      }
+    }
+  ],
+  "ignoredPatterns": [
+    "node_modules/**",
+    ".git/**",
+    ".github/**",
+    "dist/**",
+    "build/**",
+    ".next/**",
+    "__pycache__/**",
+    "*.lock",
+    "*.log",
+    "*.bin",
+    "*.pdf",
+    "*.png",
+    "*.jpg",
+    "*.jpeg",
+    "*.gif",
+    "*.mp4",
+    "*.zip",
+    "*.tar",
+    "*.gz",
+    "coverage/**",
+    ".nest/**",
+    "*.tsbuildinfo",
+    ".env*",
+    ".vscode/**",
+    ".idea/**",
+    "uploads/**",
+    "prisma/migrations/**",
+    ".turbo/**"
+  ],
+  "statistics": {
+    "totalModules": 6,
+    "totalFiles": 17,
+    "scannedFiles": 17,
+    "coveragePercentage": 100,
+    "languageDistribution": {
+      "TypeScript": 14,
+      "TSX": 3
+    },
+    "moduleTypes": {
+      "backend": 1,
+      "frontend": 2,
+      "package": 3
+    }
+  },
+  "gaps": {
+    "criticalFeatures": [
+      "后端领域模块开发 (Book, Borrow, Reader, Auth, File)",
+      "前端页面开发 (登录、仪表盘、图书管理等)",
+      "PDF/EPUB 阅读器实现",
+      "测试覆盖 (单元测试 + E2E 测试)"
+    ],
+    "missingTests": [
+      "apps/api - 单元测试",
+      "apps/api - E2E 测试",
+      "apps/admin - 组件测试",
+      "apps/reader - 组件测试",
+      "packages/utils - 单元测试"
+    ],
+    "missingDocs": []
+  },
+  "nextSteps": [
+    "优先级 1: 开发后端认证模块 (JWT 登录/登出)",
+    "优先级 1: 开发后端图书模块 (CRUD + Prisma 集成)",
+    "优先级 1: 开发后端借阅模块 (借阅/归还/续借)",
+    "优先级 2: 开发管理端登录页面",
+    "优先级 2: 开发管理端图书管理页面",
+    "优先级 2: 开发用户端图书列表与详情页",
+    "优先级 3: 实现 PDF/EPUB 阅读器",
+    "优先级 3: 添加测试覆盖"
+  ],
+  "truncated": false,
+  "truncationReason": null
+}
