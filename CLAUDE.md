@@ -558,13 +558,6 @@ AI 可自动参考的上下文:
 
 ### 9.1 开发环境
 
-**Q: 如何切换数据库为 PostgreSQL？**
-```bash
-# 1. 修改 apps/api/.env
-DATABASE_URL="postgresql://user:password@localhost:5432/gz-books"
-
-# 2. Prisma Schema 已兼容 PostgreSQL，无需修改
-```
 
 **Q: pnpm dev 启动失败怎么办？**
 ```bash

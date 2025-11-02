@@ -105,27 +105,14 @@ export default function LoginPage() {
         ))}
       </div>
 
-      {/* 登录卡片 (缩小) */}
-      <div className="relative z-10 w-full max-w-sm">
-        <div className="bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl p-6">
-          {/* Logo 与标题 (缩小) */}
+      {/* 登录卡片 (缩小) - 增强毛玻璃效果 */}
+      <div className="relative z-10 w-full max-w-md">
+        <div className="bg-white/5 backdrop-blur-3xl rounded-3xl shadow-2xl p-6 border border-white/30">
+          {/* Logo 与标题 */}
           <div className="text-center mb-6">
-            <div className="mb-3">
-              {/* 阅读图标 (缩小) */}
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl mb-2">
-                <svg
-                  className="w-7 h-7 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M13 9h5.5L13 3.5V9M6 2h8l6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4c0-1.11.89-2 2-2m0 18h12v-8H6v8z" />
-                </svg>
-              </div>
-            </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-1">
-              众慧图书借阅
+            <h1 className="text-2xl font-bold text-white drop-shadow-lg">
+              众慧图书
             </h1>
-            <p className="text-slate-600 text-sm">开启你的阅读之旅</p>
           </div>
 
           {/* 错误提示 */}
@@ -146,20 +133,22 @@ export default function LoginPage() {
             </div>
           )}
 
-          {/* 登录表单 (缩小间距) */}
+          {/* 登录表单 */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* 用户名 */}
             <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-slate-700 mb-1.5"
-              >
-                用户名
-              </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <input
+                  {...register('username')}
+                  id="username"
+                  type="text"
+                  className="w-full pl-5 pr-12 py-3 text-sm text-white placeholder-white/60 bg-purple-500/20 backdrop-blur-lg border border-white/30 rounded-full focus:ring-2 focus:ring-white/50 focus:border-white/40 transition-all outline-none"
+                  placeholder="用户名"
+                  disabled={isLoading}
+                />
+                <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                   <svg
-                    className="h-4 w-4 text-slate-400"
+                    className="h-4 w-4 text-white/60"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -172,17 +161,9 @@ export default function LoginPage() {
                     />
                   </svg>
                 </div>
-                <input
-                  {...register('username')}
-                  id="username"
-                  type="text"
-                  className="w-full pl-9 pr-3 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all outline-none"
-                  placeholder="请输入用户名"
-                  disabled={isLoading}
-                />
               </div>
               {errors.username && (
-                <p className="mt-1.5 text-xs text-red-600">
+                <p className="mt-1.5 text-xs text-red-200">
                   {errors.username.message}
                 </p>
               )}
@@ -190,16 +171,18 @@ export default function LoginPage() {
 
             {/* 密码 */}
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-slate-700 mb-1.5"
-              >
-                密码
-              </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <input
+                  {...register('password')}
+                  id="password"
+                  type="password"
+                  className="w-full pl-5 pr-12 py-3 text-sm text-white placeholder-white/60 bg-purple-500/20 backdrop-blur-lg border border-white/30 rounded-full focus:ring-2 focus:ring-white/50 focus:border-white/40 transition-all outline-none"
+                  placeholder="密码"
+                  disabled={isLoading}
+                />
+                <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                   <svg
-                    className="h-4 w-4 text-slate-400"
+                    className="h-4 w-4 text-white/60"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -212,43 +195,39 @@ export default function LoginPage() {
                     />
                   </svg>
                 </div>
-                <input
-                  {...register('password')}
-                  id="password"
-                  type="password"
-                  className="w-full pl-9 pr-3 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all outline-none"
-                  placeholder="请输入密码"
-                  disabled={isLoading}
-                />
               </div>
               {errors.password && (
-                <p className="mt-1.5 text-xs text-red-600">
+                <p className="mt-1.5 text-xs text-red-200">
                   {errors.password.message}
                 </p>
               )}
             </div>
 
-            {/* 记住我 */}
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="remember"
-                className="w-4 h-4 text-purple-600 border-slate-300 rounded focus:ring-purple-500"
-                disabled={isLoading}
-              />
-              <label
-                htmlFor="remember"
-                className="ml-2 text-sm text-slate-600"
-              >
-                记住我
+            {/* 记住我 与 忘记密码 */}
+            <div className="flex items-center justify-between text-xs">
+              <label className="flex items-center text-white cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="remember"
+                  className="w-3.5 h-3.5 text-white bg-purple-500/30 border-white/30 rounded focus:ring-white/50"
+                  disabled={isLoading}
+                />
+                <span className="ml-2">记住我</span>
               </label>
+              <a
+                href="#"
+                className="text-white hover:text-white/80 transition-colors"
+                onClick={(e) => e.preventDefault()}
+              >
+                忘记密码?
+              </a>
             </div>
 
-            {/* 登录按钮 (缩小) */}
+            {/* 登录按钮 */}
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2.5 px-4 text-sm rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl"
+              className="w-full bg-white/90 hover:bg-white text-purple-900 py-3 px-6 text-sm font-bold rounded-full focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl"
             >
               {isLoading ? (
                 <span className="flex items-center justify-center">
@@ -274,48 +253,10 @@ export default function LoginPage() {
                   登录中...
                 </span>
               ) : (
-                <span className="flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 mr-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M14 5l7 7m0 0l-7 7m7-7H3"
-                    />
-                  </svg>
-                  开始阅读
-                </span>
+                '登录'
               )}
             </button>
           </form>
-
-          {/* 底部提示 (精简) */}
-          <div className="mt-6 text-center text-xs text-slate-600">
-            暂无账号?{' '}
-            <a
-              href="#"
-              className="text-purple-600 hover:text-purple-700 font-medium transition-colors"
-              onClick={(e) => e.preventDefault()}
-            >
-              联系管理员
-            </a>
-          </div>
-
-          {/* 开发提示 (缩小) */}
-          <div className="mt-4 p-3 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg text-purple-800 text-xs">
-            <p className="font-medium mb-0.5">💡 测试账号</p>
-            <p>reader / reader123</p>
-          </div>
-        </div>
-
-        {/* 底部版权 (缩小) */}
-        <div className="text-center mt-4 text-white/70 text-xs">
-          © 2025 众慧图书 📖
         </div>
       </div>
 

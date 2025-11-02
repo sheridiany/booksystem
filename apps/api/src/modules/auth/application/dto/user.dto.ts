@@ -5,25 +5,25 @@ import { User } from '../../domain/entities/user.entity';
  *
  * 用于向前端返回用户信息 (排除敏感数据如密码)
  */
-export interface UserDto {
-  id: string;
-  username: string;
-  role: string;
-  isActive: boolean;
+export class UserDto {
+  id!: string;
+  username!: string;
+  role!: string;
+  isActive!: boolean;
   lastLoginAt?: string;
-  createdAt: string;
-}
+  createdAt!: string;
 
-/**
- * UserDto 工厂函数
- */
-export function fromEntity(user: User): UserDto {
-  return {
-    id: user.id,
-    username: user.username,
-    role: user.role,
-    isActive: user.isActive,
-    lastLoginAt: user.lastLoginAt?.toISOString(),
-    createdAt: user.createdAt.toISOString(),
-  };
+  /**
+   * 从领域实体转换为 DTO
+   */
+  static fromEntity(user: User): UserDto {
+    const dto = new UserDto();
+    dto.id = user.id;
+    dto.username = user.username;
+    dto.role = user.role;
+    dto.isActive = user.isActive;
+    dto.lastLoginAt = user.lastLoginAt?.toISOString();
+    dto.createdAt = user.createdAt.toISOString();
+    return dto;
+  }
 }

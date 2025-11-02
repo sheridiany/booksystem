@@ -17,9 +17,9 @@ export class LoginDto {
 /**
  * 登录响应 DTO
  */
-export interface LoginResponseDto {
-  accessToken: string;
-  user: {
+export class LoginResponseDto {
+  accessToken!: string;
+  user!: {
     id: string;
     username: string;
     role: string;

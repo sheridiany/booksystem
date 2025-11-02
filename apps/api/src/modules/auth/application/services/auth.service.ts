@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { IUserRepository, USER_REPOSITORY } from '../../domain/repositories/user.repository.interface';
 import { LoginDto, LoginResponseDto } from '../dto/login.dto';
-import { UserDto, fromEntity } from '../dto/user.dto';
+import { UserDto } from '../dto/user.dto';
 
 /**
  * 认证服务
@@ -84,7 +84,7 @@ export class AuthService {
       return null;
     }
 
-    return fromEntity(user);
+    return UserDto.fromEntity(user);
   }
 
   /**
@@ -99,7 +99,7 @@ export class AuthService {
       throw new UnauthorizedException('用户不存在');
     }
 
-    return fromEntity(user);
+    return UserDto.fromEntity(user);
   }
 
   /**
