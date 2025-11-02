@@ -1,0 +1,17 @@
+{
+  "name": "@repo/utils",
+  "version": "1.0.0",
+  "description": "共享工具函数",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "scripts": {
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "gz-books",
+  "version": "1.0.0",
+  "private": true,
+  "description": "高斯图书借阅系统 - Monorepo",
+  "scripts": {
+    "dev": "pnpm --parallel --filter './apps/*' dev",
+    "dev:admin": "pnpm --filter admin dev",
+    "dev:reader": "pnpm --filter reader dev",
+    "dev:api": "pnpm --filter api dev",
+    "build": "pnpm --filter './apps/*' build",
+    "build:admin": "pnpm --filter admin build",
+    "build:reader": "pnpm --filter reader build",
+    "build:api": "pnpm --filter api build",
+    "lint": "pnpm --filter './apps/*' lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "clean": "pnpm --filter './apps/*' clean && pnpm --filter './packages/*' clean"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@10.20.0"
+}
