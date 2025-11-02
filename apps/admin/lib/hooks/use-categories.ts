@@ -104,3 +104,26 @@ export function useBatchDeleteCategories() {
     },
   });
 }
+
+/**
+ * 批量移动分类
+ */
+export function useBatchMoveCategories() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ ids, targetParentId }: { ids: string[]; targetParentId: string | null }) => {
+      // 并发更新所有分类的父分类
+      await Promise.all(
+        ids.map((id) =>
+          categoryApi.update(id, { parentId: targetParentId })
+        )
+      );
+      return { movedCount: ids.length };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: categoryKeys.all });
+      queryClient.invalidateQueries({ queryKey: categoryKeys.root });
+    },
+  });
+}
